@@ -1,23 +1,23 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
+"use strict";
 // TODO: Variable global
 let presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
     // TODO
     let presupuesto = 0;
-    if(valor >= 0){
+    if(valor >= 0 || !isNaN(valor)){
         presupuesto = valor;
         return presupuesto;
     }
     else{
-        alert("El valor introducido es incorrecto");
+        console.log("El valor introducido es incorrecto");
         return -1;
     }
 }
 
 function mostrarPresupuesto() {
-    alert("Tu presupuesto actual es de: " + presupuesto + "€");
+        console.log("Tu presupuesto actual es de " + presupuesto + " €");
 }
 
 function CrearGasto() {
