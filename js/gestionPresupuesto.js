@@ -4,9 +4,7 @@
 let presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
-    // TODO
-    let presupuesto = 0;
-    if(valor >= 0 || !isNaN(valor)){
+    if(valor >= 0 && !isNaN(valor)){
         presupuesto = valor;
         return presupuesto;
     }
@@ -17,11 +15,21 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-        console.log("Tu presupuesto actual es de " + presupuesto + " €");
+        return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto() {
-    // TODO
+
+
+function CrearGasto(descripcion, valor) {
+
+    if(valor < 0){
+        valor = 0;
+    }
+    let gasto = {
+    descripcion: descripcion,
+    valor: valor
+    };
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
