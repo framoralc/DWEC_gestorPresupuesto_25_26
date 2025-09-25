@@ -22,11 +22,19 @@ function mostrarPresupuesto() {
 
 
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha, etiqueta) {
 
-    if(valor > 0  && !isNaN(valor)){
-        this.descripcion = descripcion,
-        this.valor = valor
+    if(valor > 0  && !isNaN(valor) &&
+       etiqueta[0] != ""){
+        if(fecha != ""){
+            this.descripcion = descripcion,
+            this.valor = valor,
+            this.fecha = fecha,
+            this.etiqueta = etiqueta
+        }
+        else{
+            
+        }
     }
     else{
         this.descripcion = descripcion,
