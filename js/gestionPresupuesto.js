@@ -27,26 +27,21 @@ function CrearGasto(descripcion, valor) {
         this.valor = valor
     }
     else{
-        valor = 0;
         this.descripcion = descripcion,
-        this.valor = valor
+        this.valor = 0
     }
-    return{
-        descripcion,
-        valor
+
+    this.mostrarGasto = function(){
+        return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
+    };
+
+    this.actualizarDescripcion = function(descripcion){
+        this.descripcion = descripcion;
     }
-}
 
-function mostrarGasto(){
-    return "Gasto correspondiente a " + gasto.descripcion + " con valor " + gasto.valor + " €";
-}
-
-function actualizarDescripcion(descripcion){
-    return gasto.descripcion = descripcion;
-}
-
-function actualizarValor(valor){
-    return gasto.valor = valor;
+    this.actualizarValor = function(valor){
+        this.valor = valor;
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
