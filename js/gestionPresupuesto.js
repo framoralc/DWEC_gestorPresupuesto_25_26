@@ -20,23 +20,25 @@ function mostrarPresupuesto() {
         return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
+function CrearGasto(descripcion, valor, fecha, ...etiqueta) {
 
-
-function CrearGasto(descripcion, valor, fecha, etiqueta) {
-
-    if(valor > 0  && !isNaN(valor) && fecha != "" && etiqueta[0] != "" ){
-        this.descripcion = descripcion,
-        this.valor = valor,
-        this.fecha = fecha,
-        this.etiqueta = etiqueta
-    }
-    else{
-        this.descripcion = descripcion,
-        this.valor = 0,
-        this.fecha = Date.parse(Date.now),
-        this.etiqueta = etiqueta[""];
+    if(valor < 0  || isNaN(valor) || valor === "undefined"){
+        valor = 0;
     }
 
+    if(fecha === "undefined" || isNaN(Date.parse(fecha))){
+        fecha = Date.now();
+    }
+
+    if(etiqueta === "undefined" || etiqueta.length == 0){
+        this.etiqueta = new Array();
+    }
+
+    this.descripcion = descripcion,
+    this.valor = valor,
+    this.fecha = fecha,
+    this.etiqueta = etiqueta
+    
     this.mostrarGasto = function(){
         return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
     };
