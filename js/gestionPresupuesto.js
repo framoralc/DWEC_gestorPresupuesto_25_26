@@ -61,7 +61,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.mostrarGastoCompleto = function(){
-        return `Gasto correspondiente a ${descripcion} del gasto con valor ${valor} €.
+        return `Gasto correspondiente a ${descripcion} con valor ${valor} €.
 Fecha: ${fecha}
 Etiquetas:
 - casa
