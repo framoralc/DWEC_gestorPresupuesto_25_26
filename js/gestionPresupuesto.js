@@ -20,24 +20,31 @@ function mostrarPresupuesto() {
         return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto(descripcion, valor, fecha, ...etiqueta) {
+function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 
-    if(valor < 0  || isNaN(valor) || valor === "undefined"){
+    if(descripcion === undefined){
+        descripcion = "";
+    }
+
+    if(valor === undefined  || isNaN(valor) || valor < 0){
         valor = 0;
     }
 
-    if(fecha === "undefined" || isNaN(Date.parse(fecha))){
+    if(fecha === undefined || isNaN(Date.parse(fecha))){
         fecha = Date.now();
     }
+    else{
+        fecha = Date.parse(fecha);
+    }
 
-    if(etiqueta === "undefined" || etiqueta.length == 0){
-        this.etiqueta = new Array();
+    if(!Array.isArray(etiquetas) || etiquetas === undefined || etiquetas.length === 0){
+        this.etiquetas = new Array();
     }
 
     this.descripcion = descripcion,
     this.valor = valor,
     this.fecha = fecha,
-    this.etiqueta = etiqueta
+    this.etiquetas = etiquetas
     
     this.mostrarGasto = function(){
         return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
@@ -48,13 +55,19 @@ function CrearGasto(descripcion, valor, fecha, ...etiqueta) {
     }
 
     this.actualizarValor = function(valor){
-        if(valor > 0){
+        if(valor > 0 || !isNaN(valor || valor === "undefined")){
             this.valor = valor;
         }
     }
 
     this.mostrarGastoCompleto = function(){
-
+        return `Gasto correspondiente a ${descripcion} del gasto con valor ${valor} €.
+Fecha: ${fecha}
+Etiquetas:
+- casa
+- supermercado
+- comida
+`
     }
 
     this.actualizarFecha = function(fecha){
