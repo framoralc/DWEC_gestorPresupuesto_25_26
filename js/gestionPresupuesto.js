@@ -61,8 +61,11 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.mostrarGastoCompleto = function(){
+        let fechaObj = new Date(fecha);
+        let fechaformateada = fechaObj.toLocaleString('es-ES');
+
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €.
-Fecha: ${fecha}
+Fecha: ${fechaformateada}
 Etiquetas:
 - casa
 - supermercado
@@ -71,7 +74,7 @@ Etiquetas:
     }
 
     this.actualizarFecha = function(fecha){
-        if(fecha)
+        if(isNaN(Date.parse(fecha)))
         {
             this.fecha = fecha;
         }
