@@ -74,14 +74,14 @@ Etiquetas:
     }
 
     this.actualizarFecha = function(fecha){
-        if(isNaN(Date.parse(fecha)))
+        if(!isNaN(Date.parse(fecha)) && fecha !== undefined)
         {
-            this.fecha = fecha;
+            this.fecha = Date.parse(fecha);
         }
     }
 
     this.anyadirEtiquetas = function(){
-
+        
     }
 }
 
