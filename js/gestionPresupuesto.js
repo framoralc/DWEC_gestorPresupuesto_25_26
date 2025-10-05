@@ -110,23 +110,35 @@ Etiquetas:
 }
 
 function listarGastos(){
-    return gastos.length;
+    return gastos;
 }
 
 function anyadirGasto(gasto){
-    gastos.push(gastos)
+    gasto.id = idGasto
+    idGasto++;
+    gastos.push(gasto)
+    
 }
 
-function borrarGasto(gastos){
-
+function borrarGasto(id){
+    for(let i = 0; i < gastos.length; i++){
+        if(id == gastos[i].id){
+            gastos.splice(i,1)
+        }
+    }
+    
 }
 
 function calcularTotalGastos(){
-
+    let total = 0;
+    for(let i = 0; i < gastos.length; i++){
+        total += gastos[i].valor
+    }
+    return total
 }
 
 function calcularBalance(){
-    
+    return presupuesto - calcularTotalGastos()
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
