@@ -80,8 +80,32 @@ Etiquetas:
         }
     }
 
-    this.anyadirEtiquetas = function(){
-        
+    this.anyadirEtiquetas = function(...etiqueta){
+        let count = 0;
+
+        for(let i = 0; i < etiqueta.length; i++){
+            for(let j = 0; j < this.etiquetas.length; j++){
+                if(etiqueta[i] == this.etiquetas[j]){
+                    count++;
+                }
+            }
+            if(count == 0){
+                this.etiquetas.push(etiqueta[i])
+            }
+            else{
+                count = 0;
+            }
+        }
+    }
+
+    this.borrarEtiquetas = function(...etiqueta){
+        for(let i = 0; i < etiqueta.length; i++){
+            for(let j = 0; j < this.etiquetas.length; j++){
+                if(etiqueta[i] == this.etiquetas[j]){
+                    this.etiquetas.splice(j,1)
+                }
+            }
+        }
     }
 }
 
