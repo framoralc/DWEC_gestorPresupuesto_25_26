@@ -55,7 +55,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.actualizarValor = function(valor){
-        if(valor > 0 || !isNaN(valor || valor === "undefined")){
+        if(valor > 0 && !isNaN(valor)){
             this.valor = valor;
         }
     }
