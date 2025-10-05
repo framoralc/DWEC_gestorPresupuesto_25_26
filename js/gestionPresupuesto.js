@@ -110,11 +110,11 @@ Etiquetas:
 }
 
 function listarGastos(){
-    return gastos
+    return gastos.length;
 }
 
-function anyadirGasto(id){
-
+function anyadirGasto(gasto){
+    gastos.push(gastos)
 }
 
 function borrarGasto(gastos){
