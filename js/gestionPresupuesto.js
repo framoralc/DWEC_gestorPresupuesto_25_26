@@ -62,7 +62,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 
     this.mostrarGastoCompleto = function(){
         let fechaObj = new Date(fecha);
-        let fechaformateada = fechaObj.toLocaleString('es-ES');
+        let fechaformateada = fechaObj.toLocaleString();
 
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €.
 Fecha: ${fechaformateada}
