@@ -108,7 +108,7 @@ Etiquetas:
         }
     }
 
-    function MenorQueDiez(fecha, modo){
+    function formatearFecha(fecha, modo){
                 let resul = 0;
         if(modo == "mes"){
             if((fecha + 1) < 10){
@@ -138,10 +138,10 @@ Etiquetas:
             resul = fecha.getFullYear();
         }
         else if(periodo === "mes"){
-            resul = fecha.getFullYear() + "-" + MenorQueDiez(fecha.getMonth(), "mes");
+            resul = fecha.getFullYear() + "-" + formatearFecha(fecha.getMonth(), "mes");
         }
         else if(periodo === "dia"){
-            resul = fecha.getFullYear() + "-" + MenorQueDiez(fecha.getMonth(), "mes") + "-" + MenorQueDiez(fecha.getDate(), "dia");
+            resul = fecha.getFullYear() + "-" + formatearFecha(fecha.getMonth(), "mes") + "-" + formatearFecha(fecha.getDate(), "dia");
         }
 
         return resul
@@ -180,7 +180,14 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos()
 }
 
-function filtrarGastos(){
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
+
+    let resul = gastos.filter(function(gasto)){
+        for(let gasto in filter){
+            
+        }
+    }
+
     
 }
 
