@@ -108,17 +108,40 @@ Etiquetas:
         }
     }
 
+    function MenorQueDiez(fecha, modo){
+                let resul = 0;
+        if(modo == "mes"){
+            if((fecha + 1) < 10){
+            resul = "0" + (fecha + 1);
+            }
+            else{
+                resul = fecha + 1;
+            }
+        }
+        else if(modo == "dia"){
+            if((fecha) < 10){
+            resul = "0" + (fecha);
+            }
+            else{
+                resul = fecha;
+            }
+        }
+        return resul;
+    }
+
+
     this.obtenerPeriodoAgrupacion = function(periodo){
-        let resul
+        let resul = "";
+        let fecha = new Date(this.fecha)
         
-        if(periodo = "anyo"){
-            resul = this.fecha.getFullYear()
+        if(periodo === "anyo"){
+            resul = fecha.getFullYear();
         }
-        else if(periodo = "mes"){
-            resul = this.fecha.getFullYear() + "-" +  
+        else if(periodo === "mes"){
+            resul = fecha.getFullYear() + "-" + MenorQueDiez(fecha.getMonth(), "mes");
         }
-        else if(periodo = "dia"){
-            resul = "";
+        else if(periodo === "dia"){
+            resul = fecha.getFullYear() + "-" + MenorQueDiez(fecha.getMonth(), "mes") + "-" + MenorQueDiez(fecha.getDate(), "dia");
         }
 
         return resul
@@ -158,7 +181,7 @@ function calcularBalance(){
 }
 
 function filtrarGastos(){
-
+    
 }
 
 function agruparGastos(){
