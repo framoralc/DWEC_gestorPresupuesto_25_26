@@ -182,13 +182,34 @@ function calcularBalance(){
 
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
 
-    let resul = gastos.filter(function(gasto)){
-        for(let gasto in filter){
+    let resul;
+
+    Object.assign(resul, gastos);
+
+    if(fechaDesde !== undefined){
+        resul = resul.filter(function(resul){
+            return resul = fechaDesde < resul.fecha
+        })
+    }
+    if(fechaHasta !== undefined){
+        resul = resul.filter(function(){
             
-        }
+        })
+    }
+    if(valorMinimo !== undefined){
+        resul = resul.filter(gasto => valorMinimo < this.valor)
+    }
+    if(valorMaximo !== undefined){
+        resul = resul.filter(gasto => valorMaximo < this.valor)
+    }
+    if(descripcionContiene !== undefined){
+        resul = resul.filter(gasto => descripcionContiene == this.descripcion)
+    }
+    if(etiquetasTiene !== undefined){
+        resul = resul.filter(gasto => etiquetasTiene == this.etiquetas)
     }
 
-    
+    return resul;
 }
 
 function agruparGastos(){
