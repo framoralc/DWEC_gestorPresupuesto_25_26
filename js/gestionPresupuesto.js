@@ -180,35 +180,55 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos()
 }
 
+//array.filter(function(elemento) {
+//  return condición;
+//});
+
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
 
-    let resul;
-
-    Object.assign(resul, gastos);
+    let resul = [...gastos];
 
     if(fechaDesde !== undefined){
-        resul = resul.filter(function(resul){
-            return resul = fechaDesde < resul.fecha
+        resul = resul.filter(function(gasto){
+            return new Date(fechaDesde) <= new Date(gasto.fecha);
         })
     }
     if(fechaHasta !== undefined){
-        resul = resul.filter(function(){
-            
+        resul = resul.filter(function(gasto){
+            return new Date(fechaHasta) >= new Date(gasto.fecha);
         })
     }
     if(valorMinimo !== undefined){
-        resul = resul.filter(gasto => valorMinimo < this.valor)
+        resul = resul.filter(function(gasto){
+            return valorMinimo < gasto.valor;
+        })
     }
     if(valorMaximo !== undefined){
-        resul = resul.filter(gasto => valorMaximo < this.valor)
+        resul = resul.filter(function(gasto){
+            return valorMaximo > gasto.valor;
+        })
     }
     if(descripcionContiene !== undefined){
-        resul = resul.filter(gasto => descripcionContiene == this.descripcion)
+        resul = resul.filter(function(gasto){
+            return gasto.descripcion.includes(descripcionContiene);
+        })
     }
     if(etiquetasTiene !== undefined){
-        resul = resul.filter(gasto => etiquetasTiene == this.etiquetas)
+        resul = resul.filter(function(gasto){
+            if(gasto.etiquetas !== undefined){
+                for(let i = 0; i < etiquetasTiene.length; i++){
+                    if(gasto.etiquetas.includes(etiquetasTiene[i])){
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else{
+                return false;
+            }
+            
+        });
     }
-
     return resul;
 }
 
