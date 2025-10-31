@@ -269,7 +269,7 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
         else{
             acc[periodoGasto] = valor;
         }
-        
+        console.log(acc);
         return acc;
     },{})
     return reducidos;
@@ -277,6 +277,23 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
+function obtenerPeriodoAgrupacion(periodo){
+    let resul = "";
+    let fecha = new Date(this.fecha)
+    
+    if(periodo === "anyo"){
+        resul = fecha.getFullYear();
+    }
+    else if(periodo === "mes"){
+        resul = fecha.getFullYear() + "-" + formatearFecha(fecha.getMonth(), "mes");
+    }
+    else if(periodo === "dia"){
+        resul = fecha.getFullYear() + "-" + formatearFecha(fecha.getMonth(), "mes") + "-" + formatearFecha(fecha.getDate(), "dia");
+    }
+
+    return resul
+}
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -287,5 +304,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    obtenerPeriodoAgrupacion
 }

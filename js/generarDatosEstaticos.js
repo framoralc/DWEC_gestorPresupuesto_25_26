@@ -16,9 +16,18 @@ let gasto4 = new gp.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "g
 let gasto5 = new gp.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
 let gasto6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
 
-gpw.mostrarGastoWeb("listado-gastos-completo", gasto1);
-gpw.mostrarGastoWeb("listado-gastos-completo", gasto2);
-gpw.mostrarGastoWeb("listado-gastos-completo", gasto3);
-gpw.mostrarGastoWeb("listado-gastos-completo", gasto4);
-gpw.mostrarGastoWeb("listado-gastos-completo", gasto5);
-gpw.mostrarGastoWeb("listado-gastos-completo", gasto6);
+gp.anyadirGasto(gasto1);
+gp.anyadirGasto(gasto2);
+gp.anyadirGasto(gasto3);
+gp.anyadirGasto(gasto4);
+gp.anyadirGasto(gasto5);
+gp.anyadirGasto(gasto6);
+
+//Gastos totales
+
+gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
+
+
+//Balance total
+
+gpw.mostrarDatoEnId("balance-total", gp.calcularBalance())
