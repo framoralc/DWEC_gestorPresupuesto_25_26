@@ -74,3 +74,8 @@ if(filtro4 && filtro4.length > 0){
         gpw.mostrarGastoWeb("listado-gastos-filtrado-4", gasto)
     })
 }
+
+//agrupacion
+gpw.mostrarGastosAgrupadosWeb("agrupacion-dia", gp.agruparGastos("dia"), "día")
+gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", gp.agruparGastos("mes"), "mes")
+gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gp.agruparGastos("anyo"), "año")
