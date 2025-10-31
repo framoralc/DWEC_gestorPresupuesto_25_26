@@ -41,3 +41,36 @@ gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
 //Balance total
 
 gpw.mostrarDatoEnId("balance-total", gp.calcularBalance())
+
+//Filtrado
+
+// fecha (aaaa-mm-dd)
+
+let filtro1 = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
+let filtro2 = gp.filtrarGastos({valorMinimo: 50})
+let filtro3 = gp.filtrarGastos({valorMaximo: 200, etiquetasTiene: ["seguros"]})
+let filtro4 = gp.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida", "transporte"]})
+
+if(filtro1 && filtro1.length > 0){
+    filtro1.forEach(gasto => {
+        gpw.mostrarGastoWeb("listado-gastos-filtrado-1", gasto)
+    })
+}
+
+if(filtro2 && filtro2.length > 0){
+    filtro2.forEach(gasto => {
+        gpw.mostrarGastoWeb("listado-gastos-filtrado-2", gasto)
+    })
+}
+
+if(filtro3 && filtro3.length > 0){
+    filtro3.forEach(gasto => {
+        gpw.mostrarGastoWeb("listado-gastos-filtrado-3", gasto)
+    })
+}
+
+if(filtro4 && filtro4.length > 0){
+    filtro4.forEach(gasto => {
+        gpw.mostrarGastoWeb("listado-gastos-filtrado-4", gasto)
+    })
+}
