@@ -23,6 +23,16 @@ gp.anyadirGasto(gasto4);
 gp.anyadirGasto(gasto5);
 gp.anyadirGasto(gasto6);
 
+//Listado de Gastos
+
+gpw.mostrarGastoWeb("listado-gastos-completo", gasto1);
+gpw.mostrarGastoWeb("listado-gastos-completo", gasto2);
+gpw.mostrarGastoWeb("listado-gastos-completo", gasto3);
+gpw.mostrarGastoWeb("listado-gastos-completo", gasto4);
+gpw.mostrarGastoWeb("listado-gastos-completo", gasto5);
+gpw.mostrarGastoWeb("listado-gastos-completo", gasto6);
+
+
 //Gastos totales
 
 gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
