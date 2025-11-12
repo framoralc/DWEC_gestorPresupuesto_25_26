@@ -79,7 +79,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
 function eliminarContenido(idElemento){
     let id = document.getElementById(idElemento);
-    id.innerHTML = null;
+    id.innerHTML = "";
 }
 
 function repintar(){
@@ -95,8 +95,14 @@ function repintar(){
     mostrarDatoEnId("balance-total", balance);
 }
 
+function actualizarPresupuestoWeb(){
+    let presupuesto = Number.parseInt(prompt("Introduce el nuevo presupuesto"));
+    gp.actualizarPresupuesto(presupuesto);
+    repintar();
+}
+
 let actualizar = document.getElementById("actualizarpresupuesto");
-actualizar.addEventListener('click', repintar)
+actualizar.addEventListener('click', actualizarPresupuestoWeb)
 
 
 export{
