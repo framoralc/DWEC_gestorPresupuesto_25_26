@@ -269,7 +269,6 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
         else{
             acc[periodoGasto] = valor;
         }
-        console.log(acc);
         return acc;
     },{})
     return reducidos;

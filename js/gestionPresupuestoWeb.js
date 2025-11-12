@@ -1,4 +1,8 @@
+import * as gp from './gestionPresupuesto.js';
+
+
 'use strict';
+
 
 function mostrarDatoEnId(idElemento, valor){
     let text = document.createElement("p");
@@ -31,7 +35,6 @@ function mostrarGastoWeb(idElemento, gasto){
     classGasto.append(gastoDescripcion);
     classGasto.append(gastoFecha);
     classGasto.append(gastoValor);
-    +
     classGasto.append(gastoListaEtiquetas);
 
     for(let i = 0; i < gasto.etiquetas.length; i++){
@@ -73,6 +76,28 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     
     id.append(agrupacion);
 }
+
+function eliminarContenido(idElemento){
+    let id = document.getElementById(idElemento);
+    id.innerHTML = null;
+}
+
+function repintar(){
+    eliminarContenido("presupuesto");
+    eliminarContenido("gastos-totales");
+    eliminarContenido("balance-total");
+
+    let presupuesto = gp.mostrarPresupuesto();
+    mostrarDatoEnId("presupuesto", presupuesto);
+    let gasto = gp.calcularTotalGastos();
+    mostrarDatoEnId("gastos-totales", gasto);
+    let balance = gp.calcularBalance();
+    mostrarDatoEnId("balance-total", balance);
+}
+
+let actualizar = document.getElementById("actualizarpresupuesto");
+actualizar.addEventListener('click', repintar)
+
 
 export{
     mostrarDatoEnId,
