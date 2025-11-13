@@ -173,7 +173,7 @@ function calcularTotalGastos(){
     for(let i = 0; i < gastos.length; i++){
         total += gastos[i].valor
     }
-    return total
+    return +total
 }
 
 function calcularBalance(){

@@ -101,31 +101,28 @@ function actualizarPresupuestoWeb(){
     repintar();
 }
 
-function anyadirGasto(){
+function nuevoGastoWeb(){
 
     // CrearGasto(descripcion, valor, fecha, ...etiquetas)
 
     let etiquetas = []
 
     let descripcion = prompt("Introduce la descripción del gasto");
-    let valor = prompt("Introduce el valor del gasto");
+    let valor = +prompt("Introduce el valor del gasto");
     let fecha
     let validarFecha = false;
     let etiqueta
 
     do{
-        fecha = prompt("Introduce la fecha del gasto (aaaa/mm/dd)");
+        fecha = prompt("Introduce la fecha del gasto (aaaa-mm-dd)");
         if(!isNaN(Date.parse(fecha))){
             validarFecha = true;
         }
     }while(!validarFecha)
     
-    do{
-        etiqueta = prompt("Introduce una etiqueta");
-        etiquetas.push(etiqueta)
-    }while(confirm("Quieres añadir mas etiquetas?"));
-    
-    let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
+    etiqueta = prompt("Introduce las etiqueta");
+    etiquetas.push(etiqueta.split(","))    
+    let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gp.anyadirGasto(gasto);;
     repintar();
 }
@@ -134,7 +131,8 @@ let btnActualizar = document.getElementById("actualizarpresupuesto");
 btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
 
 let btnAnyadirGaston = document.getElementById("anyadirgasto");
-btnAnyadirGaston.addEventListener('click', anyadirGasto);
+btnAnyadirGaston.addEventListener('click', nuevoGastoWeb);
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
