@@ -36,10 +36,18 @@ function mostrarGastoWeb(idElemento, gasto){
     gastoListaEtiquetas.classList.add("gasto-etiquetas")
     
     let btnEditar = document.createElement("button");
-    btnEditar.addEventListener("click", EditarHandle)
+    btnEditar.textContent = "Editar";
+    btnEditar.className = "gasto-editar"
+    let editar = new EditarHandle();
+    editar.gasto = gasto;
+    btnEditar.addEventListener("click", editar)
 
     let btnBorrar = document.createElement("button");
-    btnBorrar.addEventListener("click", BorrarHandle)
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.className = "gasto-borrar"
+    let borrar = new BorrarHandle();
+    borrar.gasto = gasto;
+    btnBorrar.addEventListener("click", borrar);
 
     let espacio = document.createElement("br");
 
@@ -47,6 +55,8 @@ function mostrarGastoWeb(idElemento, gasto){
     classGasto.append(gastoFecha);
     classGasto.append(gastoValor);
     classGasto.append(gastoListaEtiquetas);
+    classGasto.append(btnEditar);
+    classGasto.append(btnBorrar);
 
     for(let i = 0; i < gasto.etiquetas.length; i++){
         let gastoEtiquetas = document.createElement("span");
@@ -142,7 +152,7 @@ function nuevoGastoWeb(){
     etiquetas.push(etiqueta.split(","))    
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gp.anyadirGasto(gasto);;
-    repintar(gasto);
+    repintar();
 }
 
 let btnActualizar = document.getElementById("actualizarpresupuesto");
@@ -157,9 +167,9 @@ function EditarHandle(){
 
     let descripcion = prompt("Introduce la descripción del gasto", this.gasto.descripcion);
     let valor = +prompt("Introduce el valor del gasto", this.gasto.valor);
-    let fecha
+    let fecha;
     let validarFecha = false;
-    let etiqueta
+    let etiqueta;
 
     do{
         fecha = prompt("Introduce la fecha del gasto (aaaa-mm-dd)", this.gasto.obtenerPeriodoAgrupacion("dia"));
@@ -168,18 +178,26 @@ function EditarHandle(){
         }
     }while(!validarFecha)
     
-    etiqueta = prompt("Introduce las etiquetas", listarEtiquetas(this.gasto.etiquetas.toString()));
-
-    this.gasto.borrarEtiquetas()
-    etiquetas.push(etiqueta.split(","))
+    etiqueta = prompt("Introduce las etiquetas", this.gasto.etiquetas.join(','));
+    etiquetas= [ ...etiqueta.split(',')];
+    console.log("ArrayEtiquetasDelPrompt", etiquetas);
+    this.gasto.actualizarDescripcion(descripcion);
+    this.gasto.actualizarValor(valor);
+    this.gasto.actualizarFecha(fecha);
+    debugger;
+     this.gasto.borrarEtiquetas(this.gasto.etiquetas);
+         console.log(this.gasto.etiquetas);
+    // this.gasto.etiquetas = [];
     this.gasto.anyadirEtiquetas(etiquetas);
 
+    repintar();
     }
 }
 
 function BorrarHandle(){
     this.handleEvent = function(event){
-
+        gp.borrarGasto(this.gasto.id)
+        repintar();
     }
 }
 
