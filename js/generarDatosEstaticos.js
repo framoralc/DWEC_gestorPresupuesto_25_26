@@ -32,11 +32,9 @@ gpw.mostrarGastoWeb("listado-gastos-completo", gasto4);
 gpw.mostrarGastoWeb("listado-gastos-completo", gasto5);
 gpw.mostrarGastoWeb("listado-gastos-completo", gasto6);
 
-
 //Gastos totales
 
 gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
-
 
 //Balance total
 

@@ -64,6 +64,10 @@ function mostrarGastoWeb(idElemento, gasto){
         gastoEtiquetas.classList.add("gasto-etiquetas-etiqueta");
         gastoEtiquetas.textContent = gasto.etiquetas[i];
         gastoListaEtiquetas.append(gastoEtiquetas);
+        let borrarEtiqueta = new BorrarEtiquetasHandle
+        borrarEtiqueta.gasto = gasto
+        borrarEtiqueta.etiqueta = etiqueta;
+        gastoEtiquetas.addEventListener("click", borrarEtiqueta)
     }
     id.append(espacio);
     id.append(classGasto);
@@ -185,7 +189,7 @@ function EditarHandle(){
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarFecha(fecha);
     debugger;
-     this.gasto.borrarEtiquetas(this.gasto.etiquetas);
+     this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
          console.log(this.gasto.etiquetas);
     // this.gasto.etiquetas = [];
     this.gasto.anyadirEtiquetas(etiquetas);
@@ -198,6 +202,12 @@ function BorrarHandle(){
     this.handleEvent = function(event){
         gp.borrarGasto(this.gasto.id)
         repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(event){
+        
     }
 }
 
