@@ -66,7 +66,7 @@ function mostrarGastoWeb(idElemento, gasto){
         gastoListaEtiquetas.append(gastoEtiquetas);
         let borrarEtiqueta = new BorrarEtiquetasHandle
         borrarEtiqueta.gasto = gasto
-        borrarEtiqueta.etiqueta = etiqueta;
+        borrarEtiqueta.etiqueta = gasto.etiquetas[i];
         gastoEtiquetas.addEventListener("click", borrarEtiqueta)
     }
     id.append(espacio);
@@ -207,7 +207,8 @@ function BorrarHandle(){
 
 function BorrarEtiquetasHandle(){
     this.handleEvent = function(event){
-        
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
     }
 }
 
