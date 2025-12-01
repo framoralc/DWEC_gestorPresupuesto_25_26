@@ -35,10 +35,10 @@ function mostrarGastoWeb(idElemento, gasto){
     
     let btnEditar = document.createElement("button");
     btnEditar.textContent = "Editar";
-    btnEditar.className = "gasto-editar"
+    btnEditar.className = "gasto-editar";
     let editar = new EditarHandle();
     editar.gasto = gasto;
-    btnEditar.addEventListener("click", editar)
+    btnEditar.addEventListener("click", editar);
 
     let btnBorrar = document.createElement("button");
     btnBorrar.textContent = "Borrar";
@@ -46,6 +46,13 @@ function mostrarGastoWeb(idElemento, gasto){
     let borrar = new BorrarHandle();
     borrar.gasto = gasto;
     btnBorrar.addEventListener("click", borrar);
+
+    let btnEditarFormulario = document.createElement("button");
+    btnEditarFormulario.textContent = "Editar (Formulario)";
+    btnEditarFormulario.className = "gasto-Editar-fomulario"
+    let editarForm = new EditarHandleFormulario();
+    editarForm.gasto = gasto;
+    btnEditarFormulario.addEventListener('click', editarForm)
 
     let espacio = document.createElement("br");
 
@@ -150,8 +157,8 @@ function nuevoGastoWeb(){
         }
     }while(!validarFecha)
     
-    etiqueta = prompt("Introduce las etiqueta");
-    etiquetas.push(etiqueta.split(","))    
+    etiqueta = prompt("Introduce las etiquetas");
+    etiquetas = etiqueta.split(",");
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gp.anyadirGasto(gasto);
     repintar();
@@ -232,7 +239,7 @@ formulario.addEventListener('submit', function(event){
     let valor = +formulario.elements["valor"].value;
     let fecha = formulario.elements["fecha"].value;
     let etiquetas = formulario.elements["etiquetas"].value;
-    arrayEtiqueta.push(etiquetas.split(","));
+    arrayEtiqueta = etiquetas.split(",");
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, arrayEtiqueta);
     gp.anyadirGasto(gasto);
     btnEditarForm.disabled = false;
@@ -248,10 +255,10 @@ btnCancel.addEventListener('click', function(event){
 
 }
 
-
-
 function EditarHandleFormulario(){
+    this.handleEvent = function(event){
 
+    }
 }
 
 
