@@ -62,6 +62,7 @@ function mostrarGastoWeb(idElemento, gasto){
     classGasto.append(gastoListaEtiquetas);
     classGasto.append(btnEditar);
     classGasto.append(btnBorrar);
+    classGasto.append(btnEditarFormulario);
 
     for(let i = 0; i < gasto.etiquetas.length; i++){
         let gastoEtiquetas = document.createElement("span");
@@ -257,7 +258,21 @@ btnCancel.addEventListener('click', function(event){
 
 function EditarHandleFormulario(){
     this.handleEvent = function(event){
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        let formulario = plantillaFormulario.querySelector("form")
+        let btnCancel = formulario.querySelector("button.cancelar");
+        let menuEditar = document.getElementById("div.gasto");
 
+        menuEditar.append(formulario)
+
+        formulario.addEventListener('submit', function(event){
+            repintar()
+            formulario.remove()
+        })
+
+        btnCancel.addEventListener('click', function(event){
+            formulario.remove();
+        })
     }
 }
 
