@@ -1,8 +1,6 @@
 import * as gp from './gestionPresupuesto.js';
 
-
 'use strict';
-
 
 function mostrarDatoEnId(idElemento, valor){
     let titulo = document.createElement("h1");
@@ -155,7 +153,7 @@ function nuevoGastoWeb(){
     etiqueta = prompt("Introduce las etiqueta");
     etiquetas.push(etiqueta.split(","))    
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
-    gp.anyadirGasto(gasto);;
+    gp.anyadirGasto(gasto);
     repintar();
 }
 
@@ -211,6 +209,51 @@ function BorrarEtiquetasHandle(){
         repintar();
     }
 }
+
+let btnEditarForm = document.getElementById("anyadirgasto-formulario");
+btnEditarForm.addEventListener('click', nuevoGastoWebFormulario);
+
+function nuevoGastoWebFormulario(){
+    
+let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+let formulario = plantillaFormulario.querySelector("form");
+let menuBtn = document.getElementById("controlesprincipales");
+let btnCancel = formulario.querySelector('button.cancelar');
+
+menuBtn.append(formulario);
+btnEditarForm.disabled = true;
+
+formulario.addEventListener('submit', function(event){
+    event.preventDefault();
+
+    let arrayEtiqueta = [];
+
+    let descripcion = formulario.elements["descripcion"].value;
+    let valor = +formulario.elements["valor"].value;
+    let fecha = formulario.elements["fecha"].value;
+    let etiquetas = formulario.elements["etiquetas"].value;
+    arrayEtiqueta.push(etiquetas.split(","));
+    let gasto = new gp.CrearGasto(descripcion, valor, fecha, arrayEtiqueta);
+    gp.anyadirGasto(gasto);
+    btnEditarForm.disabled = false;
+    repintar();
+    formulario.remove();
+})
+
+
+btnCancel.addEventListener('click', function(event){
+    formulario.remove();
+    btnEditarForm.disabled = false;
+})
+
+}
+
+
+
+function EditarHandleFormulario(){
+
+}
+
 
 export{
     mostrarDatoEnId,
