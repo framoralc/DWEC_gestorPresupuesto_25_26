@@ -49,7 +49,7 @@ function mostrarGastoWeb(idElemento, gasto){
 
     let btnEditarFormulario = document.createElement("button");
     btnEditarFormulario.textContent = "Editar (Formulario)";
-    btnEditarFormulario.className = "gasto-Editar-fomulario"
+    btnEditarFormulario.className = "gasto-editar-formulario"
     let editarForm = new EditarHandleFormulario();
     editarForm.gasto = gasto;
     btnEditarFormulario.addEventListener('click', editarForm)
@@ -190,13 +190,10 @@ function EditarHandle(){
     
     etiqueta = prompt("Introduce las etiquetas", this.gasto.etiquetas.join(','));
     etiquetas= [ ...etiqueta.split(',')];
-    console.log("ArrayEtiquetasDelPrompt", etiquetas);
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarFecha(fecha);
-    debugger;
      this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
-         console.log(this.gasto.etiquetas);
     // this.gasto.etiquetas = [];
     this.gasto.anyadirEtiquetas(etiquetas);
 
@@ -258,20 +255,33 @@ btnCancel.addEventListener('click', function(event){
 
 function EditarHandleFormulario(){
     this.handleEvent = function(event){
+        btnEditarForm.disabled = true;
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = plantillaFormulario.querySelector("form")
         let btnCancel = formulario.querySelector("button.cancelar");
-        let menuEditar = document.getElementById("div.gasto");
+        let menuEditar = event.target.closest(".gasto");
 
-        menuEditar.append(formulario)
+        menuEditar.append(formulario);
 
         formulario.addEventListener('submit', function(event){
+            let descripcion = formulario.elements["descripcion"].value;
+            let valor = +formulario.elements["valor"].value;
+            let fecha = formulario.elements["fecha"].value;
+            let etiquetas = formulario.elements["etiquetas"].value;
+            arrayEtiqueta = etiquetas.split(",");
+            this.gasto.actualizarDescripcion(descripcion);
+            this.gasto.actualizarValor(valor);
+            this.gasto.actualizarFecha(fecha);
+            this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
+            this.gasto.anyadirEtiquetas(arrayEtiqueta);
             repintar()
             formulario.remove()
+            btnEditarForm.disabled = false;
         })
 
         btnCancel.addEventListener('click', function(event){
             formulario.remove();
+            btnEditarForm.disabled = false;
         })
     }
 }
