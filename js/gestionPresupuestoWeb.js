@@ -168,8 +168,8 @@ function nuevoGastoWeb(){
 let btnActualizar = document.getElementById("actualizarpresupuesto");
 btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
 
-let btnAnyadirGaston = document.getElementById("anyadirgasto");
-btnAnyadirGaston.addEventListener('click', nuevoGastoWeb);
+let btnAnyadirGastos = document.getElementById("anyadirgasto");
+btnAnyadirGastos.addEventListener('click', nuevoGastoWeb);
 
 function EditarHandle(){
     this.handleEvent = function(event){
@@ -255,33 +255,36 @@ btnCancel.addEventListener('click', function(event){
 
 function EditarHandleFormulario(){
     this.handleEvent = function(event){
-        btnEditarForm.disabled = true;
+        let btnEditarFormulario = event.target.closest(".gasto-editar-formulario");
+        btnEditarFormulario.disabled = true;
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = plantillaFormulario.querySelector("form")
         let btnCancel = formulario.querySelector("button.cancelar");
         let menuEditar = event.target.closest(".gasto");
-
+        let gasto = this.gasto;
         menuEditar.append(formulario);
 
         formulario.addEventListener('submit', function(event){
+            event.preventDefault();
+            let arrayEtiqueta = [];
             let descripcion = formulario.elements["descripcion"].value;
             let valor = +formulario.elements["valor"].value;
             let fecha = formulario.elements["fecha"].value;
             let etiquetas = formulario.elements["etiquetas"].value;
             arrayEtiqueta = etiquetas.split(",");
-            this.gasto.actualizarDescripcion(descripcion);
-            this.gasto.actualizarValor(valor);
-            this.gasto.actualizarFecha(fecha);
-            this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
-            this.gasto.anyadirEtiquetas(arrayEtiqueta);
+            gasto.actualizarDescripcion(descripcion);
+            gasto.actualizarValor(valor);
+            gasto.actualizarFecha(fecha);
+            gasto.borrarEtiquetas(...gasto.etiquetas);
+            gasto.anyadirEtiquetas(arrayEtiqueta);
             repintar()
             formulario.remove()
-            btnEditarForm.disabled = false;
+            btnEditarFormulario.disabled = false;
         })
 
         btnCancel.addEventListener('click', function(event){
             formulario.remove();
-            btnEditarForm.disabled = false;
+            btnEditarFormulario.disabled = false;
         })
     }
 }
