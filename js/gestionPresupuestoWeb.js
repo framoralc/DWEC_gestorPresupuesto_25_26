@@ -193,7 +193,7 @@ function EditarHandle(){
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarFecha(fecha);
-     this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
+    this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
     // this.gasto.etiquetas = [];
     this.gasto.anyadirEtiquetas(etiquetas);
 
@@ -289,6 +289,25 @@ function EditarHandleFormulario(){
     }
 }
 
+let filtroGastosWebForm = document.getElementById("formulario-filtrado");
+filtroGastosWebForm.addEventListener('click', filtrarGastosWeb);
+
+function filtrarGastosWeb(){
+    let etiquetaFiltro = filtroGastosWebForm.querySelector("formulario-filtrado-etiquetas-tiene");
+
+    let etiquetasArray = gp.transformarListadoEtiquetas(etiquetaFiltro)
+
+    let filtro = {
+        fechaDesde: filtroGastosWebForm.querySelector("formulario-filtrado-fecha-desde").value, 
+        fechaHasta: filtroGastosWebForm.querySelector("formulario-filtrado-fecha-hasta").value, 
+        valorMinimo: filtroGastosWebForm.querySelector("formulario-filtrado-valor-minimo").value, 
+        valorMaximo: filtroGastosWebForm.querySelector("formulario-filtrado-valor-maximo").value, 
+        descripcionContiene: filtroGastosWebForm.querySelector("formulario-filtrado-descripcion").value, 
+        etiquetasTiene: etiquetasArray
+    }
+
+    let resul = gp.filtrarGastos(filtro)
+}
 
 export{
     mostrarDatoEnId,

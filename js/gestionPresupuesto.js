@@ -45,7 +45,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.valor = valor,
     this.fecha = fecha,
     this.etiquetas = etiquetas
-    
+
     this.mostrarGasto = function(){
         return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
     };
@@ -133,7 +133,7 @@ Etiquetas:
     this.obtenerPeriodoAgrupacion = function(periodo){
         let resul = "";
         let fecha = new Date(this.fecha)
-        
+
         if(periodo === "anyo"){
             resul = fecha.getFullYear();
         }
@@ -143,7 +143,6 @@ Etiquetas:
         else if(periodo === "dia"){
             resul = fecha.getFullYear() + "-" + formatearFecha(fecha.getMonth(), "mes") + "-" + formatearFecha(fecha.getDate(), "dia");
         }
-
         return resul
     }
 }
@@ -226,7 +225,6 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
             else{
                 return false;
             }
-            
         });
     }
     return resul;
@@ -243,7 +241,7 @@ function VerificarPeriodo(periodo){
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
     let filtro = {};
-    
+
     if(etiquetas !== undefined){
         filtro.etiquetasTiene = [...etiquetas];
     }
@@ -259,7 +257,6 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
     }
 
     const filtrados = filtrarGastos(filtro);
-
     const reducidos = filtrados.reduce(function(acc, gasto){
     let periodoGasto = gasto.obtenerPeriodoAgrupacion(periodo);
     let valor = Number(gasto.valor) || 0;
@@ -279,7 +276,7 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 function obtenerPeriodoAgrupacion(periodo){
     let resul = "";
     let fecha = new Date(this.fecha)
-    
+
     if(periodo === "anyo"){
         resul = fecha.getFullYear();
     }
@@ -293,6 +290,11 @@ function obtenerPeriodoAgrupacion(periodo){
     return resul
 }
 
+function transformarListadoEtiquetas(etiquetasString){
+    let resul = [];
+    resul = etiquetasString.split(/[,;.: ]/)
+}
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -304,5 +306,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    obtenerPeriodoAgrupacion
+    obtenerPeriodoAgrupacion,
+    transformarListadoEtiquetas
 }
