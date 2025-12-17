@@ -290,24 +290,32 @@ function EditarHandleFormulario(){
 }
 
 let filtroGastosWebForm = document.getElementById("formulario-filtrado");
-filtroGastosWebForm.addEventListener('click', filtrarGastosWeb);
-
-function filtrarGastosWeb(){
-    let etiquetaFiltro = filtroGastosWebForm.querySelector("formulario-filtrado-etiquetas-tiene");
+filtroGastosWebForm.addEventListener('submit', function (event){
+    debugger;
+    event.preventDefault();
+    let etiquetaFiltro = filtroGastosWebForm.elements["formulario-filtrado-etiquetas-tiene"].value;
 
     let etiquetasArray = gp.transformarListadoEtiquetas(etiquetaFiltro)
 
     let filtro = {
-        fechaDesde: filtroGastosWebForm.querySelector("formulario-filtrado-fecha-desde").value, 
-        fechaHasta: filtroGastosWebForm.querySelector("formulario-filtrado-fecha-hasta").value, 
-        valorMinimo: filtroGastosWebForm.querySelector("formulario-filtrado-valor-minimo").value, 
-        valorMaximo: filtroGastosWebForm.querySelector("formulario-filtrado-valor-maximo").value, 
-        descripcionContiene: filtroGastosWebForm.querySelector("formulario-filtrado-descripcion").value, 
+        fechaDesde: filtroGastosWebForm.elements["formulario-filtrado-fecha-desde"].value, 
+        fechaHasta: filtroGastosWebForm.elements["formulario-filtrado-fecha-hasta"].value, 
+        valorMinimo: filtroGastosWebForm.elements["formulario-filtrado-valor-minimo"].value, 
+        valorMaximo: filtroGastosWebForm.elements["formulario-filtrado-valor-maximo"].value, 
+        descripcionContiene: filtroGastosWebForm.elements["formulario-filtrado-descripcion"].value, 
         etiquetasTiene: etiquetasArray
     }
 
     let resul = gp.filtrarGastos(filtro)
+
+    eliminarContenido("listado-gastos-completo")
+
+    if(resul && resul.length > 0){
+    resul.forEach(gasto => {
+        mostrarGastoWeb("listado-gastos-completo", gasto)
+    })
 }
+});
 
 export{
     mostrarDatoEnId,

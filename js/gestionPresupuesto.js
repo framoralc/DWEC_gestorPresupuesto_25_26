@@ -291,8 +291,10 @@ function obtenerPeriodoAgrupacion(periodo){
 }
 
 function transformarListadoEtiquetas(etiquetasString){
+    debugger;
     let resul = [];
-    resul = etiquetasString.split(/[,;.: ]/)
+    let regex = new RegExp(/[,;.: ]+/g);
+    return resul = etiquetasString.split(regex)
 }
 
 export   {
