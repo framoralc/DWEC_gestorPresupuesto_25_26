@@ -290,8 +290,9 @@ function EditarHandleFormulario(){
 }
 
 let filtroGastosWebForm = document.getElementById("formulario-filtrado");
-filtroGastosWebForm.addEventListener('submit', function (event){
-    debugger;
+filtroGastosWebForm.addEventListener('submit', filtroGastosWeb)
+
+function filtroGastosWeb(event){
     event.preventDefault();
     let etiquetaFiltro = filtroGastosWebForm.elements["formulario-filtrado-etiquetas-tiene"].value;
 
@@ -321,7 +322,7 @@ filtroGastosWebForm.addEventListener('submit', function (event){
             mostrarGastoWeb("listado-gastos-completo", gastos[i]);
         }
     }
-});
+};
 
 export{
     mostrarDatoEnId,

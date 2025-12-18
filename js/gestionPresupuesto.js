@@ -184,7 +184,6 @@ function calcularBalance(){
 //});
 
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
-    debugger;
     let resul = [...gastos];
 
     if(fechaDesde !== null && fechaDesde !== undefined && fechaDesde != ""){
