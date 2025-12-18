@@ -184,35 +184,35 @@ function calcularBalance(){
 //});
 
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
-
+    debugger;
     let resul = [...gastos];
 
-    if(fechaDesde !== undefined){
+    if(fechaDesde !== null && fechaDesde !== undefined && fechaDesde != ""){
         resul = resul.filter(function(gasto){
             return new Date(fechaDesde) <= new Date(gasto.fecha);
         })
     }
-    if(fechaHasta !== undefined){
+    if(fechaHasta !== null && fechaHasta !== undefined && fechaHasta != ""){
         resul = resul.filter(function(gasto){
             return new Date(fechaHasta) >= new Date(gasto.fecha);
         })
     }
-    if(valorMinimo !== undefined){
+    if(valorMinimo !== undefined && valorMinimo !== null && valorMinimo != ""){
         resul = resul.filter(function(gasto){
             return valorMinimo < gasto.valor;
         })
     }
-    if(valorMaximo !== undefined){
+    if(valorMaximo !== undefined && valorMaximo !== null && valorMaximo != ""){
         resul = resul.filter(function(gasto){
             return valorMaximo > gasto.valor;
         })
     }
-    if(descripcionContiene !== undefined){
+    if(descripcionContiene !== undefined && descripcionContiene !== null && descripcionContiene !== ""){
         resul = resul.filter(function(gasto){
             return gasto.descripcion.includes(descripcionContiene);
         })
     }
-    if(etiquetasTiene !== undefined){
+    if(etiquetasTiene !== undefined && etiquetasTiene !== null && etiquetasTiene !== "" && etiquetasTiene[0] != ""){
         resul = resul.filter(function(gasto){
             if(gasto.etiquetas !== undefined){
                 for(let i = 0; i < etiquetasTiene.length; i++){
@@ -291,7 +291,6 @@ function obtenerPeriodoAgrupacion(periodo){
 }
 
 function transformarListadoEtiquetas(etiquetasString){
-    debugger;
     let resul = [];
     let regex = new RegExp(/[,;.: ]+/g);
     return resul = etiquetasString.split(regex)

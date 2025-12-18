@@ -297,16 +297,15 @@ filtroGastosWebForm.addEventListener('submit', function (event){
 
     let etiquetasArray = gp.transformarListadoEtiquetas(etiquetaFiltro)
 
-    let filtro = {
+    let resul = gp.filtrarGastos
+    ({
         fechaDesde: filtroGastosWebForm.elements["formulario-filtrado-fecha-desde"].value, 
         fechaHasta: filtroGastosWebForm.elements["formulario-filtrado-fecha-hasta"].value, 
         valorMinimo: filtroGastosWebForm.elements["formulario-filtrado-valor-minimo"].value, 
         valorMaximo: filtroGastosWebForm.elements["formulario-filtrado-valor-maximo"].value, 
         descripcionContiene: filtroGastosWebForm.elements["formulario-filtrado-descripcion"].value, 
         etiquetasTiene: etiquetasArray
-    }
-
-    let resul = gp.filtrarGastos(filtro)
+    })
 
     eliminarContenido("listado-gastos-completo")
 
@@ -314,7 +313,14 @@ filtroGastosWebForm.addEventListener('submit', function (event){
     resul.forEach(gasto => {
         mostrarGastoWeb("listado-gastos-completo", gasto)
     })
-}
+    }
+    else{
+        let gastos = gp.listarGastos();
+
+        for(let i = 0; i < gastos.length; i++){
+            mostrarGastoWeb("listado-gastos-completo", gastos[i]);
+        }
+    }
 });
 
 export{
