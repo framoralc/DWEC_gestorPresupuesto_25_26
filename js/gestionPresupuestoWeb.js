@@ -336,7 +336,14 @@ function guardarGastosWeb(){
 
 function cargarGastosWeb(){
     let gastosAlma = JSON.parse(localStorage.getItem('GestorGastosDWEC'))
-    gp.cargarGastos(gastosAlma);
+    if(gastosAlma != null){
+        gp.cargarGastos(gastosAlma);
+    }
+    else{
+        gp.cargarGastos([]);
+    }
+    alert(gastosAlma);
+    
     repintar();
     console.log('cargado');
 }

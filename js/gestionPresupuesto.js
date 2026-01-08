@@ -304,6 +304,7 @@ function cargarGastos(gastosAlma){
         Object.assign(gastosRehidratado, g);
 
         gastos.push(gastosRehidratado);
+        alert("cargado")
     }
 }
 
