@@ -295,6 +295,18 @@ function transformarListadoEtiquetas(etiquetasString){
     return resul = etiquetasString.split(regex)
 }
 
+function cargarGastos(gastosAlma){
+    gastos = [];
+
+    for(let g of gastosAlma){
+        let gastosRehidratado = new CrearGasto();
+
+        Object.assign(gastosRehidratado, g);
+
+        gastos.push(gastosRehidratado);
+    }
+}
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -307,5 +319,6 @@ export   {
     filtrarGastos,
     agruparGastos,
     obtenerPeriodoAgrupacion,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }

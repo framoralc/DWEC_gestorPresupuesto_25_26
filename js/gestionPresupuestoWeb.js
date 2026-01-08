@@ -322,7 +322,24 @@ function filtroGastosWeb(event){
             mostrarGastoWeb("listado-gastos-completo", gastos[i]);
         }
     }
-};
+}
+
+let guardarBoton = document.getElementById('guardar-gastos').addEventListener('click', guardarGastosWeb);
+let cargarBoton = document.getElementById('cargar-gastos').addEventListener('click', cargarGastosWeb);
+
+function guardarGastosWeb(){
+    let gastos = gp.listarGastos();
+
+    localStorage.setItem('GestorGastosDWEC', JSON.stringify(gastos))
+    console.log('guardado')
+}
+
+function cargarGastosWeb(){
+    let gastosAlma = JSON.parse(localStorage.getItem('GestorGastosDWEC'))
+    gp.cargarGastos(gastosAlma);
+    repintar();
+    console.log('cargado');
+}
 
 export{
     mostrarDatoEnId,
