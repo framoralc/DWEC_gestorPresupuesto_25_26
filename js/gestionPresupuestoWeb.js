@@ -188,8 +188,8 @@ function EditarHandle(){
         }
     }while(!validarFecha)
     
-    etiqueta = prompt("Introduce las etiquetas", this.gasto.etiquetas.join(','));
-    etiquetas= [ ...etiqueta.split(',')];
+    etiqueta = prompt("Introduce las etiquetas", this.gasto.etiquetas.join(/,/g));
+    etiquetas= [ ...etiqueta.split(/,/g)];
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarFecha(fecha);
@@ -237,7 +237,7 @@ formulario.addEventListener('submit', function(event){
     let valor = +formulario.elements["valor"].value;
     let fecha = formulario.elements["fecha"].value;
     let etiquetas = formulario.elements["etiquetas"].value;
-    arrayEtiqueta = etiquetas.split(",");
+    arrayEtiqueta = etiquetas.split(/,/g);
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, arrayEtiqueta);
     gp.anyadirGasto(gasto);
     btnEditarForm.disabled = false;
@@ -271,7 +271,7 @@ function EditarHandleFormulario(){
             let valor = +formulario.elements["valor"].value;
             let fecha = formulario.elements["fecha"].value;
             let etiquetas = formulario.elements["etiquetas"].value;
-            arrayEtiqueta = etiquetas.split(",");
+            arrayEtiqueta = etiquetas.split(/,/g);
             gasto.actualizarDescripcion(descripcion);
             gasto.actualizarValor(valor);
             gasto.actualizarFecha(fecha);
