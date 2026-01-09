@@ -11,7 +11,6 @@ function actualizarPresupuesto(valor) {
         return presupuesto;
     }
     else{
-        console.log("El valor introducido es incorrecto");
         return -1;
     }
 }
@@ -46,21 +45,21 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.fecha = fecha,
     this.etiquetas = etiquetas
 
-    this.mostrarGasto = function(){
+    this.mostrarGasto = () => {
         return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
     };
 
-    this.actualizarDescripcion = function(descripcion){
+    this.actualizarDescripcion = (descripcion) => {
         this.descripcion = descripcion;
     }
 
-    this.actualizarValor = function(valor){
+    this.actualizarValor = (valor) => {
         if(valor > 0 && !isNaN(valor)){
             this.valor = valor;
         }
     }
 
-    this.mostrarGastoCompleto = function(){
+    this.mostrarGastoCompleto = () => {
         let fechaObj = new Date(fecha);
         let fechaformateada = fechaObj.toLocaleString();
 
@@ -73,14 +72,14 @@ Etiquetas:
 `
     }
 
-    this.actualizarFecha = function(fecha){
+    this.actualizarFecha = (fecha) => {
         if(!isNaN(Date.parse(fecha)) && fecha !== undefined)
         {
             this.fecha = Date.parse(fecha);
         }
     }
 
-    this.anyadirEtiquetas = function(...etiqueta){
+    this.anyadirEtiquetas = (...etiqueta) => {
         let count = 0;
 
         for(let i = 0; i < etiqueta.length; i++){
@@ -98,7 +97,7 @@ Etiquetas:
         }
     }
 
-    this.borrarEtiquetas = function(...etiqueta){
+    this.borrarEtiquetas = (...etiqueta) => {
         for(let i = 0; i < etiqueta.length; i++){
             for(let j = 0; j < this.etiquetas.length; j++){
                 if(etiqueta[i] == this.etiquetas[j]){
@@ -130,7 +129,7 @@ Etiquetas:
     }
 
 
-    this.obtenerPeriodoAgrupacion = function(periodo){
+    this.obtenerPeriodoAgrupacion = (periodo) => {
         let resul = "";
         let fecha = new Date(this.fecha)
 
@@ -169,9 +168,10 @@ function borrarGasto(id){
 
 function calcularTotalGastos(){
     let total = 0;
-    for(let i = 0; i < gastos.length; i++){
-        total += gastos[i].valor
-    }
+
+    gastos.forEach((gasto) => {
+        total += gasto.valor
+    })
     return +total
 }
 
@@ -186,33 +186,33 @@ function calcularBalance(){
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
     let resul = [...gastos];
 
-    if(fechaDesde !== null && fechaDesde !== undefined && fechaDesde != ""){
-        resul = resul.filter(function(gasto){
+    if(fechaDesde){
+        resul = resul.filter((gasto) => {
             return new Date(fechaDesde) <= new Date(gasto.fecha);
         })
     }
-    if(fechaHasta !== null && fechaHasta !== undefined && fechaHasta != ""){
-        resul = resul.filter(function(gasto){
+    if(fechaHasta){
+        resul = resul.filter((gasto) => {
             return new Date(fechaHasta) >= new Date(gasto.fecha);
         })
     }
-    if(valorMinimo !== undefined && valorMinimo !== null && valorMinimo != ""){
-        resul = resul.filter(function(gasto){
+    if(valorMinimo){
+        resul = resul.filter((gasto) => {
             return valorMinimo < gasto.valor;
         })
     }
-    if(valorMaximo !== undefined && valorMaximo !== null && valorMaximo != ""){
-        resul = resul.filter(function(gasto){
+    if(valorMaximo){
+        resul = resul.filter((gasto) => {
             return valorMaximo > gasto.valor;
         })
     }
-    if(descripcionContiene !== undefined && descripcionContiene !== null && descripcionContiene !== ""){
-        resul = resul.filter(function(gasto){
+    if(descripcionContiene){
+        resul = resul.filter((gasto) => {
             return gasto.descripcion.includes(descripcionContiene);
         })
     }
-    if(etiquetasTiene !== undefined && etiquetasTiene !== null && etiquetasTiene !== "" && etiquetasTiene[0] != ""){
-        resul = resul.filter(function(gasto){
+    if(etiquetasTiene && etiquetasTiene[0]){
+        resul = resul.filter((gasto) => {
             if(gasto.etiquetas !== undefined){
                 for(let i = 0; i < etiquetasTiene.length; i++){
                     if(gasto.etiquetas.includes(etiquetasTiene[i])){
