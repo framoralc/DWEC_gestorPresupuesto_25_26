@@ -47,9 +47,13 @@ function mostrarGastoWeb(idElemento, gasto){
     borrar.gasto = gasto;
     btnBorrar.addEventListener("click", borrar);
 
+    let btnBorrarGastoApi = document.createElement("button");
+    btnBorrarGastoApi.textContent = "Borrar (API)";
+    btnBorrarGastoApi.className = "gasto-borrar-api";
+
     let btnEditarFormulario = document.createElement("button");
     btnEditarFormulario.textContent = "Editar (Formulario)";
-    btnEditarFormulario.className = "gasto-editar-formulario"
+    btnEditarFormulario.className = "gasto-editar-formulario";
     let editarForm = new EditarHandleFormulario();
     editarForm.gasto = gasto;
     btnEditarFormulario.addEventListener('click', editarForm)
@@ -342,6 +346,27 @@ function cargarGastosWeb(){
         gp.cargarGastos([]);
     }
     
+    repintar();
+}
+
+let cargarAPI = document.getElementById("cargar-gastos-api");
+
+let nombreUsu = document.getElementById('nombre_usuario');
+
+cargarAPI.addEventListener('click', cargarGastosAPI);
+
+async function cargarGastosAPI(){
+    
+    console.log("cargando")
+
+    let contenidoAPI = await fetch('https://gestion-presupuesto-api.onrender.com/api/' + nombreUsu)
+    
+    let respuestaJSON = await contenidoAPI.json();
+
+    console.log("cargado")
+
+    gp.cargarGastos(respuestaJSON)
+
     repintar();
 }
 
