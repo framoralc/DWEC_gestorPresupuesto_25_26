@@ -115,7 +115,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         agrupacion_dato.append(agrupacion_valor);
         agrupacion.append(agrupacion_dato);
     }
-    
     id.append(agrupacion);
 }
 
@@ -150,8 +149,6 @@ function actualizarPresupuestoWeb(){
 }
 
 function nuevoGastoWeb(){
-
-    // CrearGasto(descripcion, valor, fecha, ...etiquetas)
 
     let etiquetas = []
 
@@ -219,8 +216,6 @@ function BorrarAPIHandle(){
         }
 
         try{
-            console.log(this.gasto)
-            console.log(this.gasto.gastoId)
             const respuesta = await fetch(url + "paco/" + this.gasto.gastoId, options)
 
             if(respuesta.status === '204'){
@@ -229,6 +224,8 @@ function BorrarAPIHandle(){
 
             const res = await respuesta.json();
             console.log("Se ha eliminado: " + res)
+
+            cargarGastosAPI();
         }
         catch(err){
             console.error(err);
@@ -254,7 +251,7 @@ let btnEditarForm = document.getElementById("anyadirgasto-formulario");
 btnEditarForm.addEventListener('click', nuevoGastoWebFormulario);
 
 function nuevoGastoWebFormulario(){
-    
+
 let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
 let formulario = plantillaFormulario.querySelector("form");
 let menuBtn = document.getElementById("controlesprincipales");
@@ -297,7 +294,6 @@ btnEnviarAPI.addEventListener('click', function(event){
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...arrayEtiqueta);
     
     EnviarAPI(gasto);
-    console.log("enviando");
 })
 }
 
@@ -342,9 +338,7 @@ function EditarHandleFormulario(){
         let gasto = this.gasto;
         menuEditar.append(formulario);
 
-        console.log(gasto);
-
-        formulario.addEventListener('submit', function(event){
+        formulario.addEventListener('submit', (event) => {
             event.preventDefault();
             let arrayEtiqueta = [];
             let descripcion = formulario.elements["descripcion"].value;
@@ -362,44 +356,60 @@ function EditarHandleFormulario(){
             btnEditarFormulario.disabled = false;
         })
 
-        btnCancel.addEventListener('click', function(event){
+        btnCancel.addEventListener('click', (event) => {
             formulario.remove();
             btnEditarFormulario.disabled = false;
         })
 
         btnEnviarAPI.addEventListener('click', (event) => {
             event.preventDefault();
+
+            let arrayEtiqueta = [];
+            let descripcion = formulario.elements["descripcion"].value;
+            let valor = +formulario.elements["valor"].value;
+            let fecha = formulario.elements["fecha"].value;
+            let etiquetas = formulario.elements["etiquetas"].value;
+            arrayEtiqueta = etiquetas.split(/,/g);
+            gasto.actualizarDescripcion(descripcion);
+            gasto.actualizarValor(valor);
+            gasto.actualizarFecha(fecha);
+            gasto.borrarEtiquetas(...gasto.etiquetas);
+            gasto.anyadirEtiquetas(...arrayEtiqueta);
+            repintar()
+            formulario.remove()
+
             ActualizarGasto(gasto.gastoId, gasto);
+
+            btnEditarFormulario.disabled = false;
         })
     }
 }
 
 async function ActualizarGasto(id, gasto){
+    debugger;
     const options = {
         method: "PUT",
         headers:{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(gasto)
-    };
-
-    console.log(options)
+    }
 
     try{
         const API = await fetch(url + "paco/" + id, options)
         console.log(API)
+
         if(!API.ok){
             throw new Error('No se ha actualizado') 
         }
 
         const res = await API.json();
         console.log("Se ha actualizado: " + res)
+        cargarGastosAPI();
     }
     catch(err){
         console.error(err);
     }
-    
-
 }
 
 let filtroGastosWebForm = document.getElementById("formulario-filtrado");
