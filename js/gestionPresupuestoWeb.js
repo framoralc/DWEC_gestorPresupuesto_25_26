@@ -2,6 +2,8 @@ import * as gp from './gestionPresupuesto.js';
 
 'use strict';
 
+const url = "https://gestion-presupuesto-api.onrender.com/api/";
+
 function mostrarDatoEnId(idElemento, valor){
     let titulo = document.createElement("h1");
     titulo.textContent = idElemento;
@@ -69,6 +71,7 @@ function mostrarGastoWeb(idElemento, gasto){
     classGasto.append(gastoListaEtiquetas);
     classGasto.append(btnEditar);
     classGasto.append(btnBorrar);
+    classGasto.append(btnBorrarGastoApi);
     classGasto.append(btnEditarFormulario);
 
     for(let i = 0; i < gasto.etiquetas.length; i++){
@@ -195,22 +198,41 @@ function EditarHandle(){
         }
     }while(!validarFecha)
     
-    etiqueta = prompt("Introduce las etiquetas", this.gasto.etiquetas.join(/,/g));
+    etiqueta = prompt("Introduce las etiquetas", this.gasto.etiquetas.join(','));
     etiquetas= [ ...etiqueta.split(/,/g)];
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarFecha(fecha);
     this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
     // this.gasto.etiquetas = [];
-    this.gasto.anyadirEtiquetas(etiquetas);
+    this.gasto.anyadirEtiquetas(...etiquetas);
 
     repintar();
     }
 }
 
 function BorrarAPIHandle(){
-    this.handleEvent = function(event){
+    this.handleEvent = async function(event){
 
+        const options ={
+            method: 'DELETE'
+        }
+
+        try{
+            console.log(this.gasto)
+            console.log(this.gasto.gastoId)
+            const respuesta = await fetch(url + "paco/" + this.gasto.gastoId, options)
+
+            if(respuesta.status === '204'){
+                console.log("Eliminado")
+            }
+
+            const res = await respuesta.json();
+            console.log("Se ha eliminado: " + res)
+        }
+        catch(err){
+            console.error(err);
+        }
     }
 }
 
@@ -237,6 +259,7 @@ let plantillaFormulario = document.getElementById("formulario-template").content
 let formulario = plantillaFormulario.querySelector("form");
 let menuBtn = document.getElementById("controlesprincipales");
 let btnCancel = formulario.querySelector('button.cancelar');
+let btnEnviarAPI = formulario.querySelector('button.gasto-enviar-api');
 
 menuBtn.append(formulario);
 btnEditarForm.disabled = true;
@@ -251,19 +274,60 @@ formulario.addEventListener('submit', function(event){
     let fecha = formulario.elements["fecha"].value;
     let etiquetas = formulario.elements["etiquetas"].value;
     arrayEtiqueta = etiquetas.split(/,/g);
-    let gasto = new gp.CrearGasto(descripcion, valor, fecha, arrayEtiqueta);
+    let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...arrayEtiqueta);
     gp.anyadirGasto(gasto);
     btnEditarForm.disabled = false;
     repintar();
     formulario.remove();
 })
 
-
 btnCancel.addEventListener('click', function(event){
     formulario.remove();
     btnEditarForm.disabled = false;
 })
 
+btnEnviarAPI.addEventListener('click', function(event){
+    let arrayEtiqueta = [];
+
+    let descripcion = formulario.elements["descripcion"].value;
+    let valor = +formulario.elements["valor"].value;
+    let fecha = formulario.elements["fecha"].value;
+    let etiquetas = formulario.elements["etiquetas"].value;
+    arrayEtiqueta = etiquetas.split(/,/g);
+    let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...arrayEtiqueta);
+    
+    EnviarAPI(gasto);
+    console.log("enviando");
+})
+}
+
+async function EnviarAPI(gasto){
+    
+    const nombreUsu = document.getElementById("nombre_usuario").value;
+
+    const options = {
+        method: "POST",
+        headers: {
+                    'Content-Type': 'application/json'
+                },
+        body: JSON.stringify(gasto)
+    };
+
+    try{
+        console.log("enviando");
+        const respuesta = await fetch(url + nombreUsu, options);
+        
+        if(!respuesta.ok){
+            throw new Error("No se ha podido enviar");
+        }
+
+        const nuevoRecurso = await respuesta.json();
+        console.log('Creado:', nuevoRecurso);
+
+    }
+    catch(err){
+        console.error("error: " + err)
+    }
 }
 
 function EditarHandleFormulario(){
@@ -273,9 +337,12 @@ function EditarHandleFormulario(){
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = plantillaFormulario.querySelector("form")
         let btnCancel = formulario.querySelector("button.cancelar");
+        let btnEnviarAPI = formulario.querySelector(".gasto-enviar-api");
         let menuEditar = event.target.closest(".gasto");
         let gasto = this.gasto;
         menuEditar.append(formulario);
+
+        console.log(gasto);
 
         formulario.addEventListener('submit', function(event){
             event.preventDefault();
@@ -289,7 +356,7 @@ function EditarHandleFormulario(){
             gasto.actualizarValor(valor);
             gasto.actualizarFecha(fecha);
             gasto.borrarEtiquetas(...gasto.etiquetas);
-            gasto.anyadirEtiquetas(arrayEtiqueta);
+            gasto.anyadirEtiquetas(...arrayEtiqueta);
             repintar()
             formulario.remove()
             btnEditarFormulario.disabled = false;
@@ -299,7 +366,40 @@ function EditarHandleFormulario(){
             formulario.remove();
             btnEditarFormulario.disabled = false;
         })
+
+        btnEnviarAPI.addEventListener('click', (event) => {
+            event.preventDefault();
+            ActualizarGasto(gasto.gastoId, gasto);
+        })
     }
+}
+
+async function ActualizarGasto(id, gasto){
+    const options = {
+        method: "PUT",
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(gasto)
+    };
+
+    console.log(options)
+
+    try{
+        const API = await fetch(url + "paco/" + id, options)
+        console.log(API)
+        if(!API.ok){
+            throw new Error('No se ha actualizado') 
+        }
+
+        const res = await API.json();
+        console.log("Se ha actualizado: " + res)
+    }
+    catch(err){
+        console.error(err);
+    }
+    
+
 }
 
 let filtroGastosWebForm = document.getElementById("formulario-filtrado");
@@ -364,13 +464,9 @@ cargarAPI.addEventListener('click', cargarGastosAPI);
 
 async function cargarGastosAPI(){
     let nombreUsu = document.getElementById("nombre_usuario").value;
-    console.log("cargando")
-    console.log(nombreUsu);
 
-    let contenidoAPI = await fetch('https://gestion-presupuesto-api.onrender.com/api/' + nombreUsu)
+    let contenidoAPI = await fetch(url + nombreUsu)
     let respuestaJSON = await contenidoAPI.json();
-
-    console.log("xd", respuestaJSON)
 
     gp.cargarGastos(respuestaJSON)
     repintar();
