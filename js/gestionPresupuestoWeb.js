@@ -344,7 +344,6 @@ function revelarEtiquetas(gasto){
 }
 
 function EditarHandleFormulario(){
-    debugger;
     this.handleEvent = function(event){
         let btnEditarFormulario = event.target.closest(".gasto-editar-formulario");
         btnEditarFormulario.disabled = true;
@@ -422,7 +421,6 @@ async function ActualizarGasto(id, gasto){
 
     try{
         const API = await fetch(url + nombreUsu + "/" + id, options)
-        console.log(API)
 
         if(!API.ok){
             throw new Error('No se ha actualizado') 
