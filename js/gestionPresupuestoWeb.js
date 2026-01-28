@@ -211,12 +211,14 @@ function EditarHandle(){
 function BorrarAPIHandle(){
     this.handleEvent = async function(event){
 
+        let nombreUsu = document.getElementById("nombre_usuario").value;
+
         const options ={
             method: 'DELETE'
         }
 
         try{
-            const respuesta = await fetch(url + "paco/" + this.gasto.gastoId, options)
+            const respuesta = await fetch(url + nombreUsu + "/" + this.gasto.gastoId, options)
 
             if(respuesta.status === '204'){
                 console.log("Eliminado")
@@ -326,7 +328,23 @@ async function EnviarAPI(gasto){
     }
 }
 
+function revelarEtiquetas(gasto){
+    
+    let res = "";
+    
+    for(let i = 0; i < gasto.etiquetas.length; i++){
+        if(gasto.etiquetas[i] == gasto.etiquetas[gasto.etiquetas.length - 1]){
+            res += gasto.etiquetas[i];
+        }
+        else{
+            res += gasto.etiquetas[i] + ",";
+        }
+    }
+    return res;
+}
+
 function EditarHandleFormulario(){
+    debugger;
     this.handleEvent = function(event){
         let btnEditarFormulario = event.target.closest(".gasto-editar-formulario");
         btnEditarFormulario.disabled = true;
@@ -337,6 +355,11 @@ function EditarHandleFormulario(){
         let menuEditar = event.target.closest(".gasto");
         let gasto = this.gasto;
         menuEditar.append(formulario);
+
+        formulario.elements["descripcion"].value = gasto.descripcion;
+        formulario.elements["valor"].value = gasto.valor;
+        formulario.elements["etiquetas"].value = revelarEtiquetas(gasto);
+        formulario.elements["fecha"].value = Date.parse(gasto.fecha);
 
         formulario.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -386,7 +409,9 @@ function EditarHandleFormulario(){
 }
 
 async function ActualizarGasto(id, gasto){
-    debugger;
+
+    let nombreUsu = document.getElementById("nombre_usuario").value;
+
     const options = {
         method: "PUT",
         headers:{
@@ -396,7 +421,7 @@ async function ActualizarGasto(id, gasto){
     }
 
     try{
-        const API = await fetch(url + "paco/" + id, options)
+        const API = await fetch(url + nombreUsu + "/" + id, options)
         console.log(API)
 
         if(!API.ok){
