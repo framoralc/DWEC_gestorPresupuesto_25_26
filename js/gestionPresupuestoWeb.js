@@ -93,30 +93,65 @@ function mostrarGastoWeb(idElemento, gasto){
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let id = document.getElementById(idElemento);
     id.innerHTML = "";
+    id.style.width = "33%";
+    id.style.display = "inline-block";
     let titulo = document.createElement("h1");
     titulo.textContent = 'Gastos agrupados por ' + periodo;
-    let agrupacion = document.createElement("div");
-    agrupacion.classList.add("agrupacion");
-    agrupacion.append(titulo);
+    id.append(titulo);
 
-    for(let dato in agrup){
-        let agrupacion_dato = document.createElement("div");
-        agrupacion_dato.classList.add("agrupacion-dato");
+    let chart = document.createElement("canvas");
 
-        let agrupacion_clave = document.createElement("span");
-        agrupacion_clave.classList.add("agrupacion-dato-clave");
-        agrupacion_clave.textContent = dato + " / ";
+    let unit = "";
 
-        let agrupacion_valor = document.createElement("span");
-        agrupacion_valor.classList.add("agrupacion-dato-valor");
-        agrupacion_valor.textContent = agrup[dato] + "€";
-
-        
-        agrupacion_dato.append(agrupacion_clave);
-        agrupacion_dato.append(agrupacion_valor);
-        agrupacion.append(agrupacion_dato);
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
     }
-    id.append(agrupacion);
+
+    const myChart = new Chart(chart.getContext("2d"),{
+
+        type: 'bar',
+    data: {
+        datasets: [
+            {
+                // Título de la gráfica
+                label: `Gastos por ${periodo}`,
+                // Color de fondo
+                backgroundColor: "#555555",
+                // Datos de la gráfica
+                // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                data: agrup
+            }
+        ],
+    },
+    options: {
+        scales: {
+            x: {
+                // El eje X es de tipo temporal
+                type: 'time',
+                time: {
+                    // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                    unit: unit
+                }
+            },
+            y: {
+                // Para que el eje Y empieza en 0
+                beginAtZero: true
+            }
+        }
+    }
+
+    });
+
+    id.append(chart);
 }
 
 function eliminarContenido(idElemento){
