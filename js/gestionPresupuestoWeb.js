@@ -92,6 +92,7 @@ function mostrarGastoWeb(idElemento, gasto){
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let id = document.getElementById(idElemento);
+    id.innerHTML = "";
     let titulo = document.createElement("h1");
     titulo.textContent = 'Gastos agrupados por ' + periodo;
     let agrupacion = document.createElement("div");
@@ -104,11 +105,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
         let agrupacion_clave = document.createElement("span");
         agrupacion_clave.classList.add("agrupacion-dato-clave");
-        agrupacion_clave.textContent = dato;
+        agrupacion_clave.textContent = dato + " / ";
 
         let agrupacion_valor = document.createElement("span");
         agrupacion_valor.classList.add("agrupacion-dato-valor");
-        agrupacion_valor.textContent = agrup[dato];
+        agrupacion_valor.textContent = agrup[dato] + "€";
 
         
         agrupacion_dato.append(agrupacion_clave);
@@ -127,7 +128,14 @@ function repintar(){
     eliminarContenido("presupuesto");
     eliminarContenido("gastos-totales");
     eliminarContenido("balance-total");
-    eliminarContenido("listado-gastos-completo")
+    eliminarContenido("listado-gastos-completo");
+    eliminarContenido("listado-gastos-filtrado-1");
+    eliminarContenido("listado-gastos-filtrado-2");
+    eliminarContenido("listado-gastos-filtrado-3");
+    eliminarContenido("listado-gastos-filtrado-4");
+    eliminarContenido("agrupacion-dia");
+    eliminarContenido("agrupacion-mes");
+    eliminarContenido("agrupacion-anyo");
 
     let presupuesto = gp.mostrarPresupuesto();
     mostrarDatoEnId("presupuesto", presupuesto);
@@ -140,6 +148,10 @@ function repintar(){
     for(let i = 0; i < listaGasto.length; i++){
         mostrarGastoWeb("listado-gastos-completo", listaGasto[i])
     }
+
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gp.agruparGastos("dia"), "día");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gp.agruparGastos("mes"), "mes")
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gp.agruparGastos("anyo"), "anyo")
 }
 
 function actualizarPresupuestoWeb(){
